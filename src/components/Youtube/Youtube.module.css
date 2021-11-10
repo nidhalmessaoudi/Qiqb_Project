@@ -1,0 +1,18 @@
+.videos-container {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.youtube-visit {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.youtube-reload {
+  text-decoration: underline;
+  margin-right: 2px;
+}
