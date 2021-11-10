@@ -7,7 +7,7 @@ function Video(props) {
       type="text/html"
       width="400"
       height="400"
-      src={`http://www.youtube.com/embed/${props.id}?enablejsapi=1&origin=https://example.com`}
+      src={`https://www.youtube.com/embed/${props.id}?enablejsapi=1&origin=https://example.com`}
       className={classes["yt-video"]}
       frameBorder={0}
     ></iframe>
