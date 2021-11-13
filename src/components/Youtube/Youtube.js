@@ -55,7 +55,7 @@ function Youtube() {
   }, [videos]);
 
   function renderVideos() {
-    if (!videos) {
+    if (!videos.length) {
       DUMMY_VIDEOS.map((video) => {
         return <Video key={nanoid(8)} id={video.id} title={video.title} />;
       });
