@@ -1,16 +1,17 @@
-// import axios from "axios";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { nanoid } from "nanoid";
+
 import Button from "../UI/Button/Button";
 import Video from "./Video";
 
 import classes from "./Youtube.module.css";
 
 function Youtube() {
-  const videos = [
+  const DUMMY_VIDEOS = [
     {
       id: "kaHGADqmtmk",
-      title:
-        "السر الصادم الذي أخفاه أودا في الأمبل داون ولم ننتبه له 🔥 !! ",
+      title: "السر الصادم الذي أخفاه أودا في الأمبل داون ولم ننتبه له 🔥 !! ",
     },
     {
       id: "kxTu4oYOJVw",
@@ -29,37 +30,53 @@ function Youtube() {
     },
   ];
 
-  //   useEffect(() => {
-  //     (async function fetchVideos() {
-  //       try {
-  //         const res = await axios.get(
-  //           "https://www.googleapis.com/youtube/v3/search",
-  //           {
-  //             params: {
-  //               channelId: process.env.REACT_APP_YT_CHANNEL_ID,
-  //               key: process.env.REACT_APP_YT_API_KEY,
-  //               part: "snippet",
-  //               order: "date",
-  //               maxResults: 4,
-  //             },
-  //           }
-  //         );
-  //         setVideos(res.data.items);
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     })();
-  //   }, [videos]);
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    (async function fetchVideos() {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/youtube/v3/search",
+          {
+            params: {
+              channelId: process.env.REACT_APP_YT_CHANNEL_ID,
+              key: process.env.REACT_APP_YT_API_KEY,
+              part: "snippet",
+              order: "date",
+              maxResults: 4,
+            },
+          }
+        );
+        setVideos(res.data.items);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [videos]);
+
+  function renderVideos() {
+    if (!videos) {
+      DUMMY_VIDEOS.map((video) => {
+        return <Video key={nanoid(8)} id={video.id} title={video.title} />;
+      });
+    } else {
+      videos.map((video) => {
+        return (
+          <Video
+            key={nanoid(8)}
+            id={video.id.videoId}
+            title={video.snippet.title}
+          />
+        );
+      });
+    }
+  }
 
   return (
     <section className="section" id="youtube-section">
       <h2 className="section-heading">أوداتشي في اليوتيوب</h2>
       <em className="section-heading__sub">(عرض اخر ٤ حلقات)</em>
-      <div className={classes["videos-container"]}>
-        {videos.map((video) => {
-          return <Video key={nanoid(8)} id={video.id} title={video.title} />;
-        })}
-      </div>
+      <div className={classes["videos-container"]}>{renderVideos()}</div>
       <a
         href="https://www.youtube.com/channel/UCwWXvBSNiqhCD_vEQTFE6vA"
         target="_blank"
